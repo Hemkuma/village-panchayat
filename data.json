@@ -1,0 +1,34 @@
+{
+  "residents": [
+    {
+      "id": "PAP1001",
+      "name": "Harikumar",
+      "age": 19,
+      "gender": "Male",
+      "address": "42, Anna Nagar, Panapakkam",
+      "contact": "9123237659",
+      "email": "harikumar@gmail.com",
+      "blood_group": "O+",
+      "disease_stats": {
+        "corona": "30%",
+        "dengue": "20%",
+        "malaria": "40%"
+      }
+    },
+    {
+      "id": "PAP1002",
+      "name": "Deepak",
+      "age": 17,
+      "gender": "Male",
+      "address": "Small Street, Panapakkam",
+      "contact": "9875542120",
+      "email": "deepak@example.com",
+      "blood_group": "A+",
+      "disease_stats": {
+        "corona": "25%",
+        "dengue": "35%",
+        "malaria": "30%"
+      }
+    }
+  ]
+}

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Village Panchayat - Panapakkam</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.bg-gradient-panchayat {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+.table-row-alt:nth-child(odd) {
+  background-color: rgba(243, 244, 246, 0.5);
+}
+.table-row-alt:nth-child(even) {
+  background-color: white;
+}
+.table-row-alt:hover {
+  background-color: rgba(219, 234, 254, 0.6);
+}
+.pagination-btn {
+  transition: all 0.2s ease;
+}
+.pagination-btn:hover {
+  background-color: #e5e7eb;
+}
+.banyan-tree-bg {
+  position: relative;
+}
+.banyan-tree-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path fill="rgba(255,255,255,0.03)" d="M20,20 C60,5 140,5 180,20 S195,60 180,100 S140,195 100,180 S20,140 20,100 S5,30 20,20 Z"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+.panchayat-header {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.custom-btn {
+  transition: all 0.3s ease;
+}
+.custom-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.logo-glow {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+.border-pattern {
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
+}
+.health-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+.health-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+</style>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#1e40af',secondary:'#8B4513'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
+  <!-- Header with Banyan Tree Logo -->
+  <div class="bg-gradient-panchayat panchayat-header banyan-tree-bg p-8 text-center relative">
+    <div class="flex flex-col items-center justify-center space-y-4">
+      <!-- Banyan Tree Logo -->
+      <div class="w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center p-2 logo-glow border-2 border-white/30">
+        <img src="https://readdy.ai/api/search-image?query=traditional%2520Indian%2520banyan%2520tree%2520with%2520village%2520elders%2520sitting%2520underneath%2C%2520stylized%2520illustration%2C%2520cultural%2520heritage%2520symbol%2C%2520simplified%2520for%2520logo%2520use%2C%2520clean%2520lines%2C%2520earthy%2520tones%2C%2520minimalist%2520design%2C%2520village%2520panchayat%2520concept&width=200&height=200&seq=panchayat123&orientation=squarish"
+          alt="Village Panchayat Logo"
+          class="w-28 h-28 object-contain rounded-full">
+      </div>
+      <div class="text-white">
+        <h1 class="text-3xl font-bold mb-1">Village Panchayat</h1>
+        <p class="text-lg opacity-90">Panapakkam, Ranipet District</p>
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-3 border-pattern"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="p-6 fade-in">
+    <!-- Action Button -->
+    <div class="mb-6 flex justify-between items-center">
+      <a href="add_person.html" class="custom-btn bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-button flex items-center space-x-2 shadow-md !rounded-button whitespace-nowrap">
+        <div class="w-5 h-5 flex items-center justify-center">
+          <i class="ri-user-add-line"></i>
+        </div>
+        <span>Add Person</span>
+      </a>
+      <!-- Search Box -->
+      <div class="relative w-64">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div class="w-5 h-5 flex items-center justify-center text-gray-500">
+            <i class="ri-search-line"></i>
+          </div>
+        </div>
+        <input type="text" class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="Search residents...">
+      </div>
+    </div>
+    
+    <!-- Table -->
+    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm mb-6">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">#</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Age</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Address</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Contact</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Health Status</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200" id="residentsTableBody">
+          <!-- Residents will be loaded here from JavaScript -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+      <div class="flex flex-1 justify-between sm:hidden">
+        <a href="#" class="relative inline-flex items-center rounded-button border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button whitespace-nowrap">Previous</a>
+        <a href="#" class="relative ml-3 inline-flex items-center rounded-button border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 !rounded-button whitespace-nowrap">Next</a>
+      </div>
+      <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium" id="totalResidents">10</span> results
+          </p>
+        </div>
+        <div>
+          <nav class="isolate inline-flex -space-x-px rounded-button shadow-sm" aria-label="Pagination">
+            <a href="#" class="relative inline-flex items-center rounded-l-button px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 !rounded-button whitespace-nowrap">
+              <span class="sr-only">Previous</span>
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-arrow-left-s-line"></i>
+              </div>
+            </a>
+            <a href="#" aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary !rounded-button whitespace-nowrap">1</a>
+            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 !rounded-button whitespace-nowrap">2</a>
+            <a href="#" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex !rounded-button whitespace-nowrap">3</a>
+            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0 !rounded-button whitespace-nowrap">...</span>
+            <a href="#" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex !rounded-button whitespace-nowrap">5</a>
+            <a href="#" class="relative inline-flex items-center rounded-r-button px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 !rounded-button whitespace-nowrap">
+              <span class="sr-only">Next</span>
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-arrow-right-s-line"></i>
+              </div>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="text-sm text-gray-600 mb-2 md:mb-0">
+        © 2025, Village Panchayat Panapakkam
+      </div>
+      <div class="text-sm text-gray-600">
+        All Rights Reserved
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Load residents from localStorage or use default data
+  const storedResidents = localStorage.getItem('residents');
+  let residents = [];
+  
+  if (storedResidents) {
+    residents = JSON.parse(storedResidents);
+  } else {
+    // Use default data if no localStorage data exists
+    residents = [
+      {
+        id: 1,
+        name: "Hemkumar",
+        age: "20",
+        gender: "Male",
+        blood_group: "B+",
+        address: "Anna Nagar, Panapakkam",
+        contact: "9123237659",
+        email: "hemkumar@example.com",
+        diseases: { corona: 30, dengue: 20, malaria: 40 },
+        family: ["Lakshmi (Mother)", "Ramesh (Father)"],
+        aadhaar: "123456789012",
+        voter_id: "TN12345678",
+        pan: "ABCDE1234F",
+        emergency_contact: "Ramesh - 9876543210",
+        photo: ""
+      },
+      {
+        id: 2,
+        name: "Deepak",
+        age: "29",
+        gender: "Male",
+        blood_group: "A+",
+        address: "Small Street, Panapakkam",
+        contact: "9875542120",
+        email: "deepak@example.com",
+        diseases: { corona: 30, dengue: 20, malaria: 40 },
+        family: ["Priya (Wife)", "Arun (Son)"],
+        aadhaar: "987654321098",
+        voter_id: "TN87654321",
+        pan: "XYZAB5678C",
+        emergency_contact: "Priya - 8765432109",
+        photo: ""
+      }
+    ];
+    localStorage.setItem('residents', JSON.stringify(residents));
+  }
+
+  const tableBody = document.getElementById('residentsTableBody');
+  const totalResidents = document.getElementById('totalResidents');
+  
+  // Update total count
+  totalResidents.textContent = residents.length;
+  
+  // Clear existing table rows
+  tableBody.innerHTML = '';
+  
+  // Add residents to table
+  residents.forEach((resident, index) => {
+    const row = document.createElement('tr');
+    row.className = 'table-row-alt';
+    row.setAttribute('data-id', resident.id);
+    
+    // Calculate health status (using corona as the main indicator)
+    const healthPercentage = resident.diseases?.corona || 0;
+    let healthClass = 'bg-green-100 text-green-800';
+    let dotColor = 'bg-green-500';
+    
+    if (healthPercentage > 30) {
+      healthClass = 'bg-yellow-100 text-yellow-800';
+      dotColor = 'bg-yellow-500';
+    }
+    if (healthPercentage > 60) {
+      healthClass = 'bg-red-100 text-red-800';
+      dotColor = 'bg-red-500';
+    }
+    
+    row.innerHTML = `
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${index + 1}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+        <div class="flex items-center">
+          ${resident.photo ? 
+            `<img src="${resident.photo}" class="w-8 h-8 rounded-full mr-3 object-cover" alt="${resident.name}">` : 
+            `<div class="w-8 h-8 rounded-full bg-gray-200 mr-3 flex items-center justify-center">
+              <i class="ri-user-line text-gray-500"></i>
+            </div>`
+          }
+          <a href="profile.html?id=${resident.id}" class="text-primary hover:text-primary/80 hover:underline">${resident.name}</a>
+        </div>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${resident.age}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${resident.address}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${resident.contact}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+        <span class="health-indicator ${healthClass} px-2.5 py-0.5 rounded-full text-xs font-medium">
+          <span class="health-dot ${dotColor}"></span>
+          ${healthPercentage}% Risk
+        </span>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 flex space-x-2">
+        <a href="add_person.html?edit=${resident.id}" class="p-1.5 bg-blue-100 text-primary rounded-button hover:bg-blue-200 !rounded-button whitespace-nowrap">
+          <div class="w-4 h-4 flex items-center justify-center">
+            <i class="ri-edit-line"></i>
+          </div>
+        </a>
+        <button class="p-1.5 bg-red-100 text-red-600 rounded-button hover:bg-red-200 !rounded-button whitespace-nowrap delete-btn">
+          <div class="w-4 h-4 flex items-center justify-center">
+            <i class="ri-delete-bin-line"></i>
+          </div>
+        </button>
+      </td>
+    `;
+    
+    tableBody.appendChild(row);
+  });
+
+  // Delete functionality
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const row = this.closest('tr');
+      const residentId = parseInt(row.getAttribute('data-id'));
+      const name = row.querySelector('td:nth-child(2) a').textContent;
+      
+      if (confirm(`Are you sure you want to delete ${name}?`)) {
+        // Remove from residents array
+        residents = residents.filter(res => res.id !== residentId);
+        
+        // Update localStorage
+        localStorage.setItem('residents', JSON.stringify(residents));
+        
+        // Remove from DOM
+        row.remove();
+        
+        // Update count
+        totalResidents.textContent = residents.length;
+      }
+    });
+  });
+
+  // Search functionality
+  const searchInput = document.querySelector('input[placeholder="Search residents..."]');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      const rows = document.querySelectorAll('.table-row-alt');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  }
+
+  // Pagination buttons
+  const paginationButtons = document.querySelectorAll('nav[aria-label="Pagination"] a');
+  paginationButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const pageText = this.textContent.trim();
+      if (pageText && !isNaN(pageText)) {
+        alert(`Navigating to page ${pageText}`);
+      } else if (this.querySelector('.ri-arrow-left-s-line')) {
+        alert('Navigating to previous page');
+      } else if (this.querySelector('.ri-arrow-right-s-line')) {
+        alert('Navigating to next page');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

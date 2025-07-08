@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resident Profile - Village Panchayat Panapakkam</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <style>
+    :where([class^="ri-"])::before { content: "\f3c2"; }
+    .bg-gradient-panchayat {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    }
+    .banyan-tree-bg {
+      position: relative;
+    }
+    .banyan-tree-bg::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path fill="rgba(255,255,255,0.03)" d="M20,20 C60,5 140,5 180,20 S195,60 180,100 S140,195 100,180 S20,140 20,100 S5,30 20,20 Z"></path></svg>');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      opacity: 0.1;
+    }
+    .panchayat-header {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .logo-glow {
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    }
+    .border-pattern {
+      background-image: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent);
+      background-size: 10px 10px;
+    }
+    .profile-section {
+      transition: all 0.3s ease;
+    }
+    .profile-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+    .disease-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .disease-legend-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.875rem;
+    }
+    .disease-color {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    .edit-profile-btn {
+      transition: all 0.2s ease;
+    }
+    .edit-profile-btn:hover {
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
+    <!-- Header with Banyan Tree Logo -->
+    <div class="bg-gradient-panchayat panchayat-header banyan-tree-bg p-8 text-center relative">
+      <div class="flex flex-col items-center justify-center space-y-4">
+        <div class="w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center p-2 logo-glow border-2 border-white/30">
+          <img src="https://readdy.ai/api/search-image?query=traditional%2520Indian%2520banyan%2520tree%2520with%2520village%2520elders%2520sitting%2520underneath%2C%2520stylized%2520illustration%2C%2520cultural%2520heritage%2520symbol%2C%2520simplified%2520for%2520logo%2520use%2C%2520clean%2520lines%2C%2520earthy%2520tones%2C%2520minimalist%2520design%2C%2520village%2520panchayat%2520concept&width=200&height=200&seq=panchayat123&orientation=squarish"
+            alt="Village Panchayat Logo"
+            class="w-28 h-28 object-contain rounded-full">
+        </div>
+        <div class="text-white">
+          <h1 class="text-3xl font-bold mb-1">Village Panchayat</h1>
+          <p class="text-lg opacity-90">Panapakkam, Ranipet District</p>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 h-3 border-pattern"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="p-8">
+      <!-- Back Button and Edit Profile Button -->
+      <div class="flex justify-between items-center mb-6">
+        <a href="index.html" class="inline-flex items-center text-primary hover:text-primary/80 group transition-colors duration-200">
+          <div class="w-5 h-5 flex items-center justify-center mr-1">
+            <i class="ri-arrow-left-line"></i>
+          </div>
+          <span>Back to Residents List</span>
+        </a>
+        <a href="" id="editProfileBtn" class="edit-profile-btn inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200">
+          <div class="w-5 h-5 flex items-center justify-center mr-1">
+            <i class="ri-edit-line"></i>
+          </div>
+          <span>Edit Profile</span>
+        </a>
+      </div>
+
+      <!-- Profile Section -->
+      <div class="flex flex-col md:flex-row gap-8">
+        <!-- Left Column - Profile Image -->
+        <div class="w-full md:w-1/3">
+          <div class="bg-gray-50 rounded-lg p-6 text-center profile-section">
+            <img id="profileImage" src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520an%2520Indian%2520middle-aged%2520man%2520wearing%2520formal%2520attire%2C%2520looking%2520confident%2520and%2520friendly%2C%2520high-quality%2520studio%2520lighting%2C%2520clean%2520background&width=400&height=400&seq=profile123&orientation=squarish"
+              alt="Resident Profile"
+              class="w-64 h-64 rounded-full mx-auto object-cover shadow-lg border-4 border-white mb-6">
+            
+            <h2 id="profileName" class="text-2xl font-bold text-gray-800">Loading...</h2>
+            <p class="text-gray-600 mb-4">Age: <span id="profileAge">42</span></p>
+            
+            <div class="flex justify-center space-x-4 mb-6">
+              <a id="phoneLink" href="tel:+919876543210" class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition">
+                <i class="ri-phone-line"></i>
+              </a>
+              <a id="whatsappLink" href="https://wa.me/919876543210" class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition">
+                <i class="ri-whatsapp-line"></i>
+              </a>
+              <a id="emailLink" href="mailto:rajesh.kumar@example.com" class="w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition">
+                <i class="ri-mail-line"></i>
+              </a>
+            </div>
+            
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <h3 class="font-semibold text-gray-700 mb-2">Family Members</h3>
+              <ul id="familyMembers" class="space-y-2">
+                <!-- Will be populated by JavaScript -->
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Column - Profile Details -->
+        <div class="w-full md:w-2/3 space-y-6">
+          <div class="bg-white rounded-lg shadow-sm p-6 profile-section">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Personal Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-500">Full Name</p>
+                <p id="fullName" class="font-medium">Loading...</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Gender</p>
+                <p id="genderDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Blood Group</p>
+                <p id="bloodGroupDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Aadhaar Number</p>
+                <p id="aadhaarDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Voter ID</p>
+                <p id="voterIdDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">PAN Number</p>
+                <p id="panDisplay" class="font-medium">Not specified</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-sm p-6 profile-section">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Contact Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-500">Address</p>
+                <p id="addressDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Mobile Number</p>
+                <p id="phoneDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Email</p>
+                <p id="emailDisplay" class="font-medium">Not specified</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Emergency Contact</p>
+                <p id="emergencyContactDisplay" class="font-medium">Not specified</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Disease Statistics Pie Chart -->
+          <div class="bg-white rounded-lg shadow-sm p-6 profile-section">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Disease Statistics</h2>
+            <div class="chart-container">
+              <canvas id="diseaseChart"></canvas>
+            </div>
+            <div class="disease-legend">
+              <div class="disease-legend-item">
+                <div class="disease-color bg-red-500"></div>
+                <span>COVID-19: <span id="corona-percent">0</span>%</span>
+              </div>
+              <div class="disease-legend-item">
+                <div class="disease-color bg-yellow-500"></div>
+                <span>Dengue: <span id="dengue-percent">0</span>%</span>
+              </div>
+              <div class="disease-legend-item">
+                <div class="disease-color bg-green-500"></div>
+                <span>Malaria: <span id="malaria-percent">0</span>%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-50 p-6 border-t">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="text-gray-600 mb-4 md:mb-0">
+          <p>© 2025 Village Panchayat Panapakkam. All rights reserved.</p>
+        </div>
+        <div class="flex space-x-4">
+          <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-200">
+            <i class="ri-facebook-fill"></i>
+          </a>
+          <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-200">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-200">
+            <i class="ri-instagram-line"></i>
+          </a>
+          <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-200">
+            <i class="ri-youtube-fill"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get resident ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const residentId = parseInt(urlParams.get('id'));
+      
+      // Get resident data from localStorage
+      const residents = JSON.parse(localStorage.getItem('residents')) || [];
+      const resident = residents.find(res => res.id === residentId);
+
+      if (!resident) {
+        alert('Resident not found!');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Set edit profile button link
+      document.getElementById('editProfileBtn').href = `add_person.html?edit=${resident.id}`;
+
+      // Update profile header
+      document.getElementById('profileName').textContent = resident.name;
+      document.getElementById('profileAge').textContent = resident.age;
+      
+      // Update photo
+      const profileImg = document.getElementById('profileImage');
+      if (resident.photo) {
+        profileImg.src = resident.photo;
+      }
+
+      // Update contact links
+      const phoneLink = document.getElementById('phoneLink');
+      const whatsappLink = document.getElementById('whatsappLink');
+      const emailLink = document.getElementById('emailLink');
+      
+      if (resident.contact) {
+        phoneLink.href = `tel:${resident.contact}`;
+        whatsappLink.href = `https://wa.me/${resident.contact}`;
+      }
+      if (resident.email) {
+        emailLink.href = `mailto:${resident.email}`;
+      }
+
+      // Update personal information
+      document.getElementById('fullName').textContent = resident.name;
+      document.getElementById('genderDisplay').textContent = resident.gender || 'Not specified';
+      document.getElementById('bloodGroupDisplay').textContent = resident.blood_group || 'Not specified';
+      document.getElementById('aadhaarDisplay').textContent = resident.aadhaar || 'Not specified';
+      document.getElementById('voterIdDisplay').textContent = resident.voter_id || 'Not specified';
+      document.getElementById('panDisplay').textContent = resident.pan || 'Not specified';
+
+      // Update contact information
+      document.getElementById('addressDisplay').textContent = resident.address || 'Not specified';
+      document.getElementById('phoneDisplay').textContent = resident.contact || 'Not specified';
+      document.getElementById('emailDisplay').textContent = resident.email || 'Not specified';
+      document.getElementById('emergencyContactDisplay').textContent = resident.emergency_contact || 'Not specified';
+
+      // Update family members
+      const familyList = document.getElementById('familyMembers');
+      if (resident.family && resident.family.length > 0) {
+        familyList.innerHTML = resident.family.map(member => `
+          <li class="flex items-center">
+            <i class="ri-user-3-line text-gray-500 mr-2"></i>
+            <span>${member}</span>
+          </li>
+        `).join('');
+      } else {
+        familyList.innerHTML = '<li class="text-gray-500">No family members listed</li>';
+      }
+
+      // Update disease statistics
+      const diseaseStats = resident.diseases || { corona: 0, dengue: 0, malaria: 0 };
+      document.getElementById('corona-percent').textContent = diseaseStats.corona;
+      document.getElementById('dengue-percent').textContent = diseaseStats.dengue;
+      document.getElementById('malaria-percent').textContent = diseaseStats.malaria;
+
+      // Initialize disease chart
+      const ctx = document.getElementById('diseaseChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['COVID-19', 'Dengue', 'Malaria'],
+          datasets: [{
+            data: [diseaseStats.corona, diseaseStats.dengue, diseaseStats.malaria],
+            backgroundColor: ['#ef4444', '#eab308', '#22c55e'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            datalabels: {
+              formatter: (value) => value + '%',
+              color: '#fff',
+              font: { weight: 'bold', size: 14 }
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    });
+  </script>
+</body>
+</html>

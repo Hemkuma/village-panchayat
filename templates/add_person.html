@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Resident - Village Panchayat</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <style>
+    .photo-upload-circle {
+      width: 150px;
+      height: 150px;
+      border: 3px dashed #3b82f6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background-color: #f0f7ff;
+      overflow: hidden;
+      margin: 0 auto 20px;
+    }
+    .photo-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: none;
+    }
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+    .disease-input {
+      width: 80px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden my-8">
+    <div class="bg-gradient-to-r from-blue-800 to-blue-500 text-white p-8 text-center">
+      <h1 class="text-3xl font-bold">Village Panchayat</h1>
+      <p>Panapakkam, Ranipet District</p>
+    </div>
+    <div class="p-8">
+      <a href="index.html" class="text-blue-600 hover:underline mb-6 inline-block">
+        <i class="ri-arrow-left-line"></i> Back to Residents List
+      </a>
+      <h2 class="text-3xl font-bold mb-6" id="formTitle">Add New Resident</h2>
+      <form id="residentForm">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div>
+            <label for="photo-upload" class="photo-upload-circle">
+              <input type="file" id="photo-upload" name="photo" accept="image/*" class="hidden">
+              <img id="photo-preview" class="photo-preview">
+              <div class="text-blue-600 text-center">
+                <i class="ri-camera-line text-2xl"></i>
+                <p class="text-sm">Upload Photo</p>
+              </div>
+            </label>
+          </div>
+          <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block font-semibold mb-2">Full Name*</label>
+              <input type="text" name="name" required class="form-input w-full border p-2 rounded" placeholder="Enter full name" id="nameInput">
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Age*</label>
+              <input type="number" name="age" required class="form-input w-full border p-2 rounded" placeholder="Enter age" id="ageInput">
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Gender*</label>
+              <select name="gender" required class="form-input w-full border p-2 rounded" id="genderSelect">
+                <option disabled selected>Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Blood Group</label>
+              <select name="blood_group" class="form-input w-full border p-2 rounded" id="bloodGroupSelect">
+                <option disabled selected>Select blood group</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option>
+                <option>O+</option><option>O-</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-semibold mb-2">Address*</label>
+              <textarea name="address" required rows="2" class="form-input w-full border p-2 rounded" placeholder="Full address" id="addressInput"></textarea>
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Phone Number*</label>
+              <input type="tel" name="contact" required pattern="[0-9]{10}" class="form-input w-full border p-2 rounded" placeholder="10-digit number" id="contactInput">
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Email</label>
+              <input type="email" name="email" class="form-input w-full border p-2 rounded" placeholder="email@example.com" id="emailInput">
+            </div>
+          </div>
+        </div>
+
+        <!-- Disease Ratio Section with Pie Chart -->
+        <div class="mt-10">
+          <h3 class="text-xl font-semibold text-blue-600 mb-4">Health Information - Disease Ratios</h3>
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="grid md:grid-cols-2 gap-8">
+              <!-- Disease Input Controls -->
+              <div>
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <label class="font-semibold">Corona Ratio</label>
+                    <div class="flex items-center">
+                      <input type="number" name="disease_corona" min="0" max="100" value="30" 
+                             class="disease-input border p-2 rounded" data-disease="corona" id="coronaInput">
+                      <span class="ml-2">%</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label class="font-semibold">Dengue Ratio</label>
+                    <div class="flex items-center">
+                      <input type="number" name="disease_dengue" min="0" max="100" value="20" 
+                             class="disease-input border p-2 rounded" data-disease="dengue" id="dengueInput">
+                      <span class="ml-2">%</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label class="font-semibold">Malaria Ratio</label>
+                    <div class="flex items-center">
+                      <input type="number" name="disease_malaria" min="0" max="100" value="40" 
+                             class="disease-input border p-2 rounded" data-disease="malaria" id="malariaInput">
+                      <span class="ml-2">%</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between pt-2 border-t">
+                    <label class="font-semibold">Total</label>
+                    <div class="flex items-center">
+                      <span id="total-percentage" class="font-bold">90%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Pie Chart Visualization -->
+              <div>
+                <div class="chart-container">
+                  <canvas id="diseaseChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="mt-6">
+          <h3 class="text-xl font-semibold text-blue-600 mb-4">Additional Information</h3>
+          <div class="bg-white p-6 rounded-lg shadow-sm grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block font-semibold mb-2">Family Members (comma separated)</label>
+              <input type="text" name="family" class="form-input w-full border p-2 rounded" 
+                     placeholder="e.g. Spouse Name, Child 1, Child 2" id="familyInput">
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Aadhaar Number</label>
+              <input type="text" name="aadhaar" class="form-input w-full border p-2 rounded" 
+                     placeholder="12-digit Aadhaar" id="aadhaarInput">
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">Voter ID</label>
+              <input type="text" name="voter_id" class="form-input w-full border p-2 rounded" 
+                     placeholder="Voter ID number" id="voterIdInput">
+            </div>
+            <div>
+              <label class="block font-semibold mb-2">PAN Number</label>
+              <input type="text" name="pan" class="form-input w-full border p-2 rounded" 
+                     placeholder="PAN number" id="panInput">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-semibold mb-2">Emergency Contact</label>
+              <input type="text" name="emergency_contact" class="form-input w-full border p-2 rounded" 
+                     placeholder="Name and number" id="emergencyContactInput">
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-end space-x-4">
+          <a href="index.html" class="bg-white border border-gray-400 text-gray-700 px-4 py-2 rounded">Cancel</a>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            <i class="ri-save-line mr-2"></i><span id="saveButtonText">Save Resident</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="bg-gray-100 text-center text-sm text-gray-600 py-4 border-t mt-8">
+      © 2025, Village Panchayat Panapakkam. All Rights Reserved.
+    </div>
+  </div>
+
+  <script>
+    // Check if we're editing an existing resident
+    const urlParams = new URLSearchParams(window.location.search);
+    const editId = urlParams.get('edit');
+    let isEditMode = false;
+    let existingResident = null;
+
+    // Photo upload preview
+    document.getElementById('photo-upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('photo-preview');
+      if (file && file.size <= 2 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          preview.src = event.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      } else {
+        alert('Please upload an image under 2MB');
+      }
+    });
+
+    // Disease Ratio Pie Chart
+    const ctx = document.getElementById('diseaseChart').getContext('2d');
+    const diseaseChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Corona', 'Dengue', 'Malaria'],
+        datasets: [{
+          data: [30, 20, 40],
+          backgroundColor: [
+            '#ef4444', // red-500
+            '#eab308', // yellow-500
+            '#22c55e'  // green-500
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          datalabels: {
+            formatter: (value) => {
+              return value + '%';
+            },
+            color: '#fff',
+            font: {
+              weight: 'bold'
+            }
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    // Update chart when disease ratios change
+    document.querySelectorAll('.disease-input').forEach(input => {
+      input.addEventListener('change', updateDiseaseChart);
+      input.addEventListener('input', updateDiseaseChart);
+    });
+
+    function updateDiseaseChart() {
+      const corona = parseInt(document.querySelector('[name="disease_corona"]').value) || 0;
+      const dengue = parseInt(document.querySelector('[name="disease_dengue"]').value) || 0;
+      const malaria = parseInt(document.querySelector('[name="disease_malaria"]').value) || 0;
+      
+      // Update chart data
+      diseaseChart.data.datasets[0].data = [corona, dengue, malaria];
+      diseaseChart.update();
+      
+      // Update total percentage
+      const total = corona + dengue + malaria;
+      document.getElementById('total-percentage').textContent = total + '%';
+      
+      // Validate total doesn't exceed 100%
+      if (total > 100) {
+        document.getElementById('total-percentage').classList.add('text-red-600');
+      } else {
+        document.getElementById('total-percentage').classList.remove('text-red-600');
+      }
+    }
+
+    // Load resident data if in edit mode
+    if (editId) {
+      isEditMode = true;
+      document.getElementById('formTitle').textContent = 'Edit Resident';
+      document.getElementById('saveButtonText').textContent = 'Update Resident';
+      
+      // Get resident data from localStorage
+      const residents = JSON.parse(localStorage.getItem('residents')) || [];
+      existingResident = residents.find(res => res.id === parseInt(editId));
+      
+      if (existingResident) {
+        // Populate form fields
+        document.getElementById('nameInput').value = existingResident.name;
+        document.getElementById('ageInput').value = existingResident.age;
+        document.getElementById('genderSelect').value = existingResident.gender || '';
+        document.getElementById('bloodGroupSelect').value = existingResident.blood_group || '';
+        document.getElementById('addressInput').value = existingResident.address;
+        document.getElementById('contactInput').value = existingResident.contact;
+        document.getElementById('emailInput').value = existingResident.email || '';
+        document.getElementById('coronaInput').value = existingResident.diseases.corona;
+        document.getElementById('dengueInput').value = existingResident.diseases.dengue;
+        document.getElementById('malariaInput').value = existingResident.diseases.malaria;
+        document.getElementById('familyInput').value = existingResident.family ? existingResident.family.join(', ') : '';
+        document.getElementById('aadhaarInput').value = existingResident.aadhaar || '';
+        document.getElementById('voterIdInput').value = existingResident.voter_id || '';
+        document.getElementById('panInput').value = existingResident.pan || '';
+        document.getElementById('emergencyContactInput').value = existingResident.emergency_contact || '';
+        
+        if (existingResident.photo) {
+          const preview = document.getElementById('photo-preview');
+          preview.src = existingResident.photo;
+          preview.style.display = 'block';
+        }
+        
+        // Update chart
+        updateDiseaseChart();
+      }
+    }
+
+    // Form submission handler
+    document.getElementById('residentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = {
+        id: isEditMode ? existingResident.id : Date.now(),
+        name: this.elements.name.value,
+        age: this.elements.age.value,
+        gender: this.elements.gender.value,
+        blood_group: this.elements.blood_group.value,
+        address: this.elements.address.value,
+        contact: this.elements.contact.value,
+        email: this.elements.email.value,
+        diseases: {
+          corona: parseInt(this.elements.disease_corona.value) || 0,
+          dengue: parseInt(this.elements.disease_dengue.value) || 0,
+          malaria: parseInt(this.elements.disease_malaria.value) || 0
+        },
+        photo: document.getElementById('photo-preview').src || '',
+        family: this.elements.family.value.split(',').map(item => item.trim()),
+        aadhaar: this.elements.aadhaar.value,
+        voter_id: this.elements.voter_id.value,
+        pan: this.elements.pan.value,
+        emergency_contact: this.elements.emergency_contact.value
+      };
+
+      // Get existing residents from localStorage
+      let residents = JSON.parse(localStorage.getItem('residents')) || [];
+      
+      if (isEditMode) {
+        // Update existing resident
+        residents = residents.map(res => 
+          res.id === formData.id ? formData : res
+        );
+      } else {
+        // Add new resident
+        residents.push(formData);
+      }
+      
+      // Save back to localStorage
+      localStorage.setItem('residents', JSON.stringify(residents));
+      
+      // Redirect to profile page for the resident
+      window.location.href = `profile.html?id=${formData.id}`;
+    });
+  </script>
+</body>
+</html>
